@@ -49,6 +49,11 @@ jobs:
         export PYTHONPATH=$PWD/installdir/lib/python3.9/site-packages/
         pushd benchmarks
         asv machine --yes --config asv.conf.json
-        asv run --dry-run
-        popd
-        
+        asv run | tee results.txt
+    
+    - name: Upload results as artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: benchmarks_results
+        path: |
+          results.txt
