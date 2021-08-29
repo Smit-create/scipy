@@ -47,7 +47,10 @@ jobs:
     - name: Benchmark SciPy
       run: |
         export PYTHONPATH=$PWD/installdir/lib/python3.9/site-packages/
-        python runtests.py -n --bench optimize_linprog.KleeMinty | tee benchmark_result.txt
+        pushd benchmarks
+        asv machine --yes --config asv.conf.json
+        popd
+        python runtests.py -n --bench optimize_linprog | tee benchmark_result.txt
     
     - name: Upload results as artifacts
       uses: actions/upload-artifact@v2
