@@ -50,7 +50,7 @@ jobs:
         pushd benchmarks
         asv machine --yes --config asv.conf.json
         popd
-        python runtests.py -n --bench optimize_linprog | tee benchmark_result.txt
+        python runtests.py -n --bench | tee benchmark_result.txt
     
     - name: Upload results as artifacts
       uses: actions/upload-artifact@v2
