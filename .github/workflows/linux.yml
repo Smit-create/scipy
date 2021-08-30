@@ -39,7 +39,7 @@ jobs:
         python -m pip install --user git+https://github.com/rgommers/meson.git@fix-cython-mixed-sources
     - name: Build SciPy
       run: |
-        meson setup --optimization=3 build --prefix=$PWD/installdir
+        meson setup --optimization=s build --prefix=$PWD/installdir
         ninja -C build -j 2
     - name: Install SciPy
       run: |
