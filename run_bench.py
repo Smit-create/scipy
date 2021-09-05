@@ -19,7 +19,7 @@ CUR_DIR = sys.path[0]
 sys.path.pop(0)
 sys.path.insert(0, PY_PATH) # For finding the scipy that will be built and installed
 sys.path.insert(0, CUR_DIR)
-#sys.path.pop(0)
+
 env = dict(os.environ)
 env['OPENBLAS_NUM_THREADS'] = '1'
 env['MKL_NUM_THREADS'] = '1'
@@ -81,10 +81,10 @@ def build_scipy(optimization_level):
     optimization_level: str
         Optimization level to be used while setting up meson build
     """
-    ls = subprocess.check_output("ls")
-    print(ls)
     print("Building scipy with optimization level %s" % (optimization_level))
-    cmd = ["meson", "setup", "--wipe", "--optimization", optimization_level,
+    cmd = ["rm", "-rf", "build"]
+    ret = subprocess.call(cmd)
+    cmd = ["meson", "setup", "--optimization", optimization_level,
             "build", "--prefix", PATH_INSTALLED]
     ret = subprocess.call(cmd)
     if ret != 0:
