@@ -17,9 +17,9 @@ OPTIMIZE_LEVELS = ["0", "1", "2"]
 CUR_DIR = sys.path[0]
 
 sys.path.pop(0)
-sys.path.insert(0, PY_PATH) # For finding the scipy that will be build and installed
+sys.path.insert(0, PY_PATH) # For finding the scipy that will be built and installed
 sys.path.insert(0, CUR_DIR)
-
+#sys.path.pop(0)
 env = dict(os.environ)
 env['OPENBLAS_NUM_THREADS'] = '1'
 env['MKL_NUM_THREADS'] = '1'
@@ -81,14 +81,25 @@ def build_scipy(optimization_level):
     optimization_level: str
         Optimization level to be used while setting up meson build
     """
+    ls = subprocess.check_output("ls")
+    print(ls)
     print("Building scipy with optimization level %s" % (optimization_level))
     cmd = ["meson", "setup", "--wipe", "--optimization", optimization_level,
             "build", "--prefix", PATH_INSTALLED]
-    subprocess.call(cmd)
+    ret = subprocess.call(cmd)
+    if ret != 0:
+        print("Meson build failed")
+        raise
     cmd = ["ninja", "-C", "build" , "-j", "2"]
-    subprocess.call(cmd)
+    ret = subprocess.call(cmd)
+    if ret != 0:
+        print("ninja build failed")
+        raise
     cmd = ["meson", "install", "-C", "build"]
     subprocess.call(cmd)
+    if ret != 0:
+        print("Meson installation failed")
+        raise
 
 def run_asv(cmd):
     """
