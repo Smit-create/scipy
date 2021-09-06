@@ -13,11 +13,9 @@ else:
 PATH_INSTALLED = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                    'installdir')
 PY_PATH = os.path.join(PATH_INSTALLED, "lib/python3.9/site-packages/")
-OPTIMIZE_LEVELS = ["0", "1", "2"]
+OPTIMIZE_LEVELS = ["0"]# "1", "2"]
 CUR_DIR = sys.path[0]
-sys.path.insert(1, PY_PATH) # For finding the scipy that will be built and installed
-
-os.environ["PYTHONPATH"] = PY_PATH
+sys.path.pop(0)
 
 env = dict(os.environ)
 env['OPENBLAS_NUM_THREADS'] = '1'
@@ -47,14 +45,18 @@ def main(argv):
     install_dir_size = []
 
     for optimization_level in OPTIMIZE_LEVELS:
+        sys.path.insert(0, CUR_DIR)
         start = time.time()
         build_scipy(optimization_level)
         end = time.time()
+        sys.path.pop(0)
         build_time.append(end - start)
         install_dir_size.append(get_size())
+        sys.path.insert(0, PY_PATH)
         start = time.time()
         retval = run_asv(cmd)
         end = time.time()
+        sys.path.pop(0)
         if retval:
             print("Error while running benchmarks for optimization level: %s"
                 % (optimization_level))
@@ -104,7 +106,7 @@ def run_asv(cmd):
     """
     Running the benchmark tests using asv
     """
-    sys.path.pop(0)
+    os.environ['PYTHONPATH'] = PY_PATH
     import scipy
     print("Running benchmarks for Scipy version %s at %s"
           % (scipy.__version__, scipy.__file__))
@@ -120,7 +122,6 @@ def run_asv(cmd):
     try:
         ret = subprocess.call(cmd, env=env, cwd=cwd)
         sys.path.pop(0)
-        sys.path.insert(0, CUR_DIR)
         return ret
     except OSError as err:
         if err.errno == errno.ENOENT:
