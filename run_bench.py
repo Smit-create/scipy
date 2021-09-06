@@ -13,9 +13,10 @@ else:
 PATH_INSTALLED = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                    'installdir')
 PY_PATH = os.path.join(PATH_INSTALLED, "lib/python3.9/site-packages/")
-OPTIMIZE_LEVELS = ["0"]# "1", "2"]
 CUR_DIR = sys.path[0]
 sys.path.pop(0)
+
+OPTIMIZE_LEVELS = ["0", "1", "2", "3", "g", "s"]
 
 env = dict(os.environ)
 env['OPENBLAS_NUM_THREADS'] = '1'
@@ -66,7 +67,7 @@ def main(argv):
         benchmark_time.append(end - start)
 
     print("*"*80)
-    print("-"*35, "Results", "-"*35)
+    print("-"*35, "Results", "-"*36)
     print("*"*80)
     print("Optimization Level \tBuild Time \t      Benchmarks Time \t\t Size \t")
     for op in range(len(OPTIMIZE_LEVELS)):
