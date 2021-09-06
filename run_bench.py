@@ -15,10 +15,9 @@ PATH_INSTALLED = os.path.join(os.path.abspath(os.path.dirname(__file__)),
 PY_PATH = os.path.join(PATH_INSTALLED, "lib/python3.9/site-packages/")
 OPTIMIZE_LEVELS = ["0", "1", "2"]
 CUR_DIR = sys.path[0]
+sys.path.insert(1, PY_PATH) # For finding the scipy that will be built and installed
 
-sys.path.pop(0)
-sys.path.insert(0, PY_PATH) # For finding the scipy that will be built and installed
-sys.path.insert(0, CUR_DIR)
+os.environ["PYTHONPATH"] = PY_PATH
 
 env = dict(os.environ)
 env['OPENBLAS_NUM_THREADS'] = '1'
@@ -36,7 +35,7 @@ def main(argv):
                         help="Arguments to pass to Nose, Python or shell")
     args = parser.parse_args(argv)
     items = args.args[:]
-    default = "integrate.Quad.time_quad_cffi"
+    default = "optimize_linprog.KleeMinty"
     bench_args = []
     if not items:
          items = [default]
