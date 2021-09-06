@@ -120,6 +120,7 @@ def run_asv(cmd):
         pass
     # Run
     try:
+        env.environ['PYTHONPATH'] = PY_PATH
         ret = subprocess.call(cmd, env=env, cwd=cwd)
         sys.path.pop(0)
         return ret
