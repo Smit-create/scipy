@@ -1,3 +1,16 @@
+"""
+Python script for comparing benchmark results of different optimization levels
+available on meson.
+
+Examples
+========
+
+1. $ python run_bench.py
+    Runs all benchmark tests
+2. $ python run_bench.py optimize_linprog.KleeMinty
+    Runs only "optimize_linprog.KleeMinty" benchmark test
+"""
+
 from argparse import ArgumentParser, REMAINDER
 import subprocess
 import time
@@ -16,7 +29,7 @@ PY_PATH = os.path.join(PATH_INSTALLED, "lib/python3.9/site-packages/")
 CUR_DIR = sys.path[0]
 sys.path.pop(0)
 
-OPTIMIZE_LEVELS = ["0", "1", "2", "3", "g", "s"]
+OPTIMIZE_LEVELS = ["0", "1"]#, "2", "3", "g", "s"]
 
 env = dict(os.environ)
 env['OPENBLAS_NUM_THREADS'] = '1'
@@ -28,8 +41,6 @@ def main(argv):
     optimization levels using meson
     """
     parser = ArgumentParser(usage=__doc__.lstrip())
-    parser.add_argument("--bench", action="store_true",
-                        help="Run benchmark suite instead of test suite")
     parser.add_argument("args", metavar="ARGS", default=[], nargs=REMAINDER,
                         help="Arguments to pass to Nose, Python or shell")
     args = parser.parse_args(argv)
@@ -85,7 +96,7 @@ def build_scipy(optimization_level):
     optimization_level: str
         Optimization level to be used while setting up meson build
     """
-    print("Building scipy with optimization level %s" % (optimization_level))
+    print("Building scipy with optimization level: %s" % (optimization_level))
     cmd = ["rm", "-rf", "build"]
     ret = subprocess.call(cmd)
     cmd = ["meson", "setup", "--optimization", optimization_level,
