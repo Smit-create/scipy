@@ -34,6 +34,8 @@ def main(argv):
     args = parser.parse_args(argv)
     items = args.args[:]
     default = "optimize_linprog.KleeMinty"
+    env['PYTHONPATH'] = PY_PATH
+    os.environ['PYTHONPATH'] = PY_PATH
     bench_args = []
     if not items:
          items = [default]
@@ -106,7 +108,7 @@ def run_asv(cmd):
     """
     Running the benchmark tests using asv
     """
-    os.environ['PYTHONPATH'] = PY_PATH
+
     import scipy
     print("Running benchmarks for Scipy version %s at %s"
           % (scipy.__version__, scipy.__file__))
@@ -120,7 +122,7 @@ def run_asv(cmd):
         pass
     # Run
     try:
-        env.environ['PYTHONPATH'] = PY_PATH
+
         ret = subprocess.call(cmd, env=env, cwd=cwd)
         sys.path.pop(0)
         return ret
