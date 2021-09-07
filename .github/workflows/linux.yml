@@ -44,3 +44,10 @@ jobs:
         asv machine --yes --config asv.conf.json
         popd
         python run_bench.py optimize_linprog.LpGen
+
+    - name: Upload results as artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: benchmarks_folder
+          path: |
+            benchmarks

@@ -29,7 +29,7 @@ PY_PATH = os.path.join(PATH_INSTALLED, "lib/python3.9/site-packages/")
 CUR_DIR = sys.path[0]
 sys.path.pop(0)
 
-OPTIMIZE_LEVELS = ["0", "1"]#, "2", "3", "g", "s"]
+OPTIMIZE_LEVELS = ["0" ,"1"] # "2", "3", "g", "s"]
 
 env = dict(os.environ)
 env['OPENBLAS_NUM_THREADS'] = '1'
@@ -136,6 +136,14 @@ def run_asv(cmd):
     try:
 
         ret = subprocess.call(cmd, env=env, cwd=cwd)
+        if ret != 0:
+            print("asv run failed")
+            raise
+        cmd = ["asv", "publish"]
+        ret = subprocess.call(cmd, env=env, cwd=cwd)
+        if ret != 0:
+            print("asv publish failed")
+            raise
         sys.path.pop(0)
         return ret
     except OSError as err:
