@@ -43,7 +43,7 @@ jobs:
         pushd benchmarks
         asv machine --yes --config asv.conf.json
         popd
-        python run_bench.py optimize_linprog.LpGen
+        python run_bench.py
 
     - name: Upload results as artifacts
       uses: actions/upload-artifact@v2

@@ -29,7 +29,7 @@ PY_PATH = os.path.join(PATH_INSTALLED, "lib/python3.9/site-packages/")
 CUR_DIR = sys.path[0]
 sys.path.pop(0)
 
-OPTIMIZE_LEVELS = ["0" ,"1"] # "2", "3", "g", "s"]
+OPTIMIZE_LEVELS = ["0" ]#"1"] # "2", "3", "g", "s"]
 
 env = dict(os.environ)
 env['OPENBLAS_NUM_THREADS'] = '1'
@@ -49,11 +49,11 @@ def main(argv):
     env['PYTHONPATH'] = PY_PATH
     os.environ['PYTHONPATH'] = PY_PATH
     bench_args = []
-    if not items:
-         items = [default]
+    # if not items:
+    #      items = [default]
     for a in items:
         bench_args.extend(['--bench', a])
-    cmd = ['asv', 'run', '--dry-run', '--show-stderr', '--python=same'] + bench_args
+    cmd = ['asv', 'run', '--python=same', '--steps=1'] + bench_args
     build_time = []
     benchmark_time = []
     install_dir_size = []
