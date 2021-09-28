@@ -18,7 +18,7 @@ from numpy import array, arange
 import numpy as np
 
 from scipy.fft import fft
-from scipy.ndimage.filters import correlate1d
+from scipy.ndimage import correlate1d
 from scipy.optimize import fmin, linear_sum_assignment
 from scipy import signal
 from scipy.signal import (
@@ -1062,6 +1062,16 @@ class TestMedFilt:
         assert_equal(signal.medfilt(in_typed).dtype, dtype)
         assert_equal(signal.medfilt2d(in_typed).dtype, dtype)
 
+    @pytest.mark.parametrize('dtype', [np.bool_, np.cfloat, np.cdouble,
+                                       np.clongdouble, np.float16,])
+    def test_invalid_dtypes(self, dtype):
+        in_typed = np.array(self.IN, dtype=dtype)
+        with pytest.raises(ValueError, match="order_filterND"):
+            signal.medfilt(in_typed)
+
+        with pytest.raises(ValueError, match="order_filterND"):
+            signal.medfilt2d(in_typed)
+
     def test_none(self):
         # gh-1651, trac #1124. Ensure this does not segfault.
         with pytest.warns(UserWarning):
@@ -1247,6 +1257,14 @@ class TestResample:
         h = np.array([1, 1, 1], dtype=np.float32)
         y = signal.resample_poly(x, 1, 2, window=h, padtype=padtype)
         assert(y.dtype == np.float32)
+
+    @pytest.mark.parametrize('padtype', padtype_options)
+    @pytest.mark.parametrize('dtype', [np.float32, np.float64])
+    def test_output_match_dtype(self, padtype, dtype):
+        # Test that the dtype of x is preserved per issue #14733
+        x = np.arange(10, dtype=dtype)
+        y = signal.resample_poly(x, 1, 2, padtype=padtype)
+        assert(y.dtype == x.dtype)
 
     @pytest.mark.parametrize(
         "method, ext, padtype",
@@ -2373,10 +2391,10 @@ def check_filtfilt_gust(b, a, shape, axis, irlen=None):
     zo1 = np.swapaxes(zo1, -1, axis)
     zo2 = np.swapaxes(zo2, -1, axis)
 
-    assert_allclose(y, yo, rtol=1e-9, atol=1e-10)
-    assert_allclose(yg, yo, rtol=1e-9, atol=1e-10)
-    assert_allclose(zg1, zo1, rtol=1e-9, atol=1e-10)
-    assert_allclose(zg2, zo2, rtol=1e-9, atol=1e-10)
+    assert_allclose(y, yo, rtol=1e-8, atol=1e-9)
+    assert_allclose(yg, yo, rtol=1e-8, atol=1e-9)
+    assert_allclose(zg1, zo1, rtol=1e-8, atol=1e-9)
+    assert_allclose(zg2, zo2, rtol=1e-8, atol=1e-9)
 
 
 def test_choose_conv_method():
