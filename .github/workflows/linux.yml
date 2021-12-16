@@ -13,7 +13,7 @@ on:
 jobs:
   Python-38-dbg:
     name: Python 3.8-dbg
-    if: "github.repository == 'scipy/scipy' && !contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[skip github]')"
+    if: "github.repository == 'rgommers/scipy' && !contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[skip github]')"
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
           mkdir builds
           cd builds
       - name: Installing packages
-        run: |      
+        run: |
           python3.8-dbg -c 'import sys; print("Python debug build:", hasattr(sys, "gettotalrefcount"))'
           python3.8-dbg -m pip install --upgrade pip setuptools wheel
           python3.8-dbg -m pip install --upgrade numpy cython pytest pytest-xdist pybind11
