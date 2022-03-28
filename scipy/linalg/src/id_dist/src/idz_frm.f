@@ -162,7 +162,7 @@ c       output:
 c       y -- permutation of x
 c
         implicit none
-        integer n,ind(n),k
+        integer n,k,ind(n)
         complex*16 x(n),y(n)
 c
 c
@@ -191,7 +191,7 @@ c       output:
 c       y -- collection of entries of x specified by ind
 c
         implicit none
-        integer n,ind(n),m,k
+        integer n,m,k,ind(n)
         complex*16 x(m),y(n)
 c
 c

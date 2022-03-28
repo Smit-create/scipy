@@ -174,7 +174,7 @@ c              other nonzero values when dgesdd bombs
 c
 c       _N.B._: This routine destroys a. Also, please beware that
 c               the source code for this routine could be clearer.
-c               w must be at least 
+c               w must be at least
 c               (krank+1)*(m+2*n+9)+8*min(m,n)+15*krank**2
 c               real*8 elements long, where krank is the rank
 c               output by the present routine.
@@ -315,8 +315,8 @@ c       output:
 c       a -- rearranged matrix
 c
         implicit none
-        integer k,krank,m,n,j,ind(krank)
-        real*8 rswap,a(m,n)
+        integer k,krank,m,n,j
+        real*8 rswap,a(m,n),ind(krank)
 c
 c
         do k = krank,1,-1

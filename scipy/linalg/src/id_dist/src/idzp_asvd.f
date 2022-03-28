@@ -27,7 +27,7 @@ c       lw -- maximum usable length (in complex*16 elements)
 c             of the array w
 c       eps -- precision of the desired approximation
 c       m -- number of rows in a
-c       n -- number of columns in a 
+c       n -- number of columns in a
 c       a -- matrix to be approximated; the present routine does not
 c            alter a
 c       winit -- initialization array that has been constructed
@@ -159,9 +159,9 @@ c       for the present routine (please see routine idzp_asvd
 c       for further documentation).
 c
         implicit none
-        integer m,n,krank,list(n),ier
+        integer m,n,krank,ier
         real*8 s(krank)
-        complex*16 a(m,n),u(m,krank),v(n,krank),
+        complex*16 a(m,n),u(m,krank),v(n,krank),list(n),
      1             proj(krank,n-krank),col(m,krank),
      2             work((krank+1)*(m+3*n+10)+9*krank**2)
 c

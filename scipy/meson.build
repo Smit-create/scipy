@@ -11,6 +11,8 @@ if is_windows
     # Force gcc to float64 long doubles for compatibility with MSVC
     # builds, for C only.
     add_global_arguments('-mlong-double-64', language: 'c')
+    add_global_arguments('-fallow-argument-mismatch',
+      language: ['fortran'])
     # Make fprintf("%zd") work (see https://github.com/rgommers/scipy/issues/118)
     add_global_arguments('-D__USE_MINGW_ANSI_STDIO=1', language: ['c', 'cpp'])
     # Manual add of MS_WIN64 macro when not using MSVC.
@@ -31,7 +33,7 @@ if is_windows
     # arguments.
     # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90329
     # https://github.com/wch/r-source/blob/838f9d5a7be08f2a8c08e47bcd28756f5d0aac90/src/gnuwin32/MkRules.rules#L121
-    add_global_arguments('-fno-optimize-sibling-calls',
+    add_global_arguments(['-fno-optimize-sibling-calls', '-fallow-argument-mismatch'],
       language: ['fortran'])
   endif
 endif

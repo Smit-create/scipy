@@ -310,8 +310,7 @@ c       output:
 c       b -- complex*16 copy of a
 c
         integer n,k
-        real*8 a(n)
-        complex*16 b(n)
+        complex*16 b(n),a(n)
 c
 c
         do k = 1,n
