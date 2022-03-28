@@ -31,7 +31,7 @@ if is_windows
     # arguments.
     # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90329
     # https://github.com/wch/r-source/blob/838f9d5a7be08f2a8c08e47bcd28756f5d0aac90/src/gnuwin32/MkRules.rules#L121
-    add_global_arguments('-fno-optimize-sibling-calls',
+    add_global_arguments(['-fno-optimize-sibling-calls', '-fallow-argument-mismatch'],
       language: ['fortran'])
   endif
 endif
