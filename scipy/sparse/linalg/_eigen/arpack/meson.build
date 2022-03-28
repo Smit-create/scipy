@@ -83,7 +83,7 @@ arpack_sources = [
 
 arpack_lib = static_library('arpack_lib',
   arpack_sources,
-  fortran_args: fortran_ignore_warnings,
+  fortran_args: fortran_ignore_warnings + ['-Wno-argument-mismatch'],
   include_directories: ['ARPACK/SRC']
 )
 

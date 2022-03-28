@@ -14,7 +14,7 @@ project(
     # TODO: the below -Wno flags are all needed to silence warnings in
     # f2py-generated code. This should be fixed in f2py itself.
     'c_args=-Wno-unused-function -Wno-conversion -Wno-misleading-indentation -Wno-incompatible-pointer-types',
-    'fortran_args=-Wno-conversion -Wno-argument-mismatch',
+    'fortran_args=-Wno-conversion',
     'fortran_std=legacy',
     'blas=openblas',
     'lapack=openblas'
